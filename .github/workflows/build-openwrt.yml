@@ -99,6 +99,7 @@ jobs:
       id: package
       run: |
         cd openwrt
+        echo "::set-output name=commitHash::$(git rev-parse --short HEAD)"
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -192,7 +193,7 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && steps.compile.outputs.status == 'success' && !cancelled()
       run: |
-        echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
+        echo "::set-output name=release_tag::$(date +"OpenWrt_%Y%m%d_%H%M%S_${{ steps.package.outputs.commitHash }}")"
         touch release.txt
         [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
