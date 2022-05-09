@@ -2,7 +2,7 @@ name: Remove old artifacts
 
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: 0 8 * * SAT
   repository_dispatch:
   workflow_dispatch:
    
