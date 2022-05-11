@@ -134,7 +134,7 @@ jobs:
         
     - name: Get environment path
       id: environment
-      if: env.UPLOAD_BIN_DIR == 'true' && !cancelled()
+      if: (!cancelled())
       run: |
         cd openwrt/bin/
         echo "WORKSPACE_DIR=$PWD" >> $GITHUB_ENV
@@ -162,7 +162,7 @@ jobs:
         
     - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && steps.compile.outputs.status == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -171,7 +171,7 @@ jobs:
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
