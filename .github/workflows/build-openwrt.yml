@@ -20,7 +20,7 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: git@github.com:WYC-2020/lede.git
+  REPO_URL: git@github.com:chenwhao/lede.git
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config
